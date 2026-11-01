@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sthealth Stretch | 不打擾工作心流的電腦伸展計時器 (Windows)</title>
+  <meta name="description" content="專為長期久坐的上班族與開發者打造。僅在鍵盤滑鼠完全靜止的「思考空檔」悄悄提醒，絕不搶奪視窗焦點、不中斷打字思路。內建28種圖解辦公室伸展、3款清新主題與青蛙版支持者回饋功能。">
+  <meta name="keywords" content="伸展計時器, Windows 應用程式, 久坐伸展, 肩頸痠痛, 護腰, 休息提醒, 不打擾計時器, Sthealth Stretch, 番茄鐘替代">
+  
+  <!-- 多語言相互連結 (SEO / hreflang) -->
+  <link rel="alternate" hreflang="en" href="https://ayotalomanoy-glitch.github.io/sthealth/" />
+  <link rel="alternate" hreflang="ja" href="https://ayotalomanoy-glitch.github.io/sthealth/ja.html" />
+  <link rel="alternate" hreflang="ko" href="https://ayotalomanoy-glitch.github.io/sthealth/ko.html" />
+  <link rel="alternate" hreflang="zh-TW" href="https://ayotalomanoy-glitch.github.io/sthealth/zh-tw.html" />
+  <link rel="alternate" hreflang="x-default" href="https://ayotalomanoy-glitch.github.io/sthealth/" />
+
+  <!-- Open Graph / X Card -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sthealth Stretch - 溫柔不打擾的電腦健康伸展計時器">
+  <meta property="og:description" content="只在雙手停下打字時悄悄出現。零焦點干擾。拯救久坐族肩頸與腰部負擔的28種桌上伸展。">
+  <meta property="og:image" content="https://ayotalomanoy-glitch.github.io/sthealth/banner.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- 結構化資料 (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Sthealth Stretch",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "HealthApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "TWD"
+    },
+    "description": "專為深受肩頸僵硬與腰痛困擾的久坐族設計的實用伸展計時器。僅在操作完全靜止的空檔彈出，絕不強佔輸入焦點。",
+    "downloadUrl": "https://apps.microsoft.com/detail/9nsmkpw8mp5h",
+    "softwareVersion": "1.3.4.0",
+    "author": {
+      "@type": "Organization",
+      "name": "Sthealth Dev"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --brand-green: #1e824c;
+      --brand-dark: #124d2c;
+      --brand-accent: #27ae60;
+      --brand-light: #e8f8f0;
+      --brand-mint: #a3e4d7;
+      
+      --text-main: #14281e;
+      --text-muted: #4a6356;
+      --card-bg: rgba(255, 255, 255, 0.82);
+      --card-border: rgba(30, 130, 76, 0.14);
+      --card-shadow: 0 12px 32px rgba(20, 40, 30, 0.06);
+      --danger: #d9534f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", sans-serif;
+      background-color: #f2fbf6;
+      color: var(--text-main);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -1; overflow: hidden;
+      background: radial-gradient(circle at 10% 20%, #eafbf2 0%, #f6fdf9 100%);
+    }
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.55;
+      animation: float 22s infinite alternate ease-in-out;
+    }
+    .blob-1 { width: 520px; height: 520px; background: #c8f4dc; top: -100px; left: -80px; }
+    .blob-2 { width: 600px; height: 600px; background: #bbf0d8; bottom: -120px; right: -100px; animation-duration: 28s; animation-delay: -6s; }
+    .blob-3 { width: 450px; height: 450px; background: #d8f8e8; top: 45%; left: 35%; animation-duration: 20s; animation-delay: -10s; }
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.08); }
+      100% { transform: translate(-40px, 70px) scale(0.94); }
+    }
+
+    a { color: var(--brand-green); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    header {
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(246, 253, 249, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
+    .logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(30, 130, 76, 0.15); }
+    .nav-links { display: flex; align-items: center; gap: 24px; font-size: 0.95rem; font-weight: 500; }
+    .nav-links a { color: var(--text-muted); }
+    .nav-links a:hover { color: var(--brand-green); }
+    
+    .lang-switch {
+      display: flex; gap: 10px; font-size: 0.85rem; background: var(--card-bg);
+      padding: 6px 14px; border-radius: 20px; border: 1px solid var(--card-border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .lang-switch a { color: var(--text-muted); }
+    .lang-switch a:hover { color: var(--brand-green); }
+    .lang-switch span.active { color: var(--brand-green); font-weight: 700; }
+
+    .hero {
+      padding: 80px 0 64px;
+      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center;
+    }
+    .badge {
+      display: inline-block; background: rgba(30, 130, 76, 0.08); color: var(--brand-green);
+      border: 1px solid rgba(30, 130, 76, 0.22); padding: 6px 16px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: 2.75rem; line-height: 1.25; margin-bottom: 20px; letter-spacing: -0.02em; color: #0b1f14; }
+    .hero h1 span { color: var(--brand-green); }
+    .hero p { font-size: 1.12rem; color: var(--text-muted); margin-bottom: 32px; line-height: 1.75; }
+    .cta-group { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #1e824c 0%, #156238 100%);
+      color: #ffffff; font-weight: 600; font-size: 1.05rem; padding: 15px 30px;
+      border-radius: 12px; box-shadow: 0 10px 24px rgba(30, 130, 76, 0.28);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(30, 130, 76, 0.35); opacity: 1; }
+    .meta-note { font-size: 0.88rem; color: var(--text-muted); margin-top: 14px; }
+    .hero-visual { text-align: center; }
+    .hero-visual img {
+      width: 100%; max-width: 400px; border-radius: 24px;
+      box-shadow: 0 20px 48px rgba(20, 50, 35, 0.14); border: 4px solid #ffffff;
+    }
+
+    section { padding: 72px 0; border-top: 1px solid var(--card-border); }
+    .section-title { text-align: center; font-size: 2.1rem; margin-bottom: 12px; color: #0d2418; }
+    .section-sub { text-align: center; color: var(--text-muted); max-width: 680px; margin: 0 auto 48px; font-size: 1.05rem; }
+
+    .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .card {
+      background: var(--card-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border); border-radius: 18px; padding: 32px; box-shadow: var(--card-shadow);
+    }
+    .card.bad { border-color: rgba(217, 83, 79, 0.25); background: rgba(255, 255, 255, 0.7); }
+    .card.good {
+      border-color: rgba(30, 130, 76, 0.3);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(235, 251, 242, 0.8) 100%);
+      box-shadow: 0 16px 36px rgba(30, 130, 76, 0.1);
+    }
+    .card h3 { font-size: 1.25rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .card ul { list-style: none; color: var(--text-muted); }
+    .card ul li { margin-bottom: 12px; padding-left: 26px; position: relative; }
+    .card.bad ul li::before { content: "✕"; color: var(--danger); position: absolute; left: 0; font-weight: bold; }
+    .card.good ul li::before { content: "✓"; color: var(--brand-green); position: absolute; left: 0; font-weight: bold; font-size: 1.1rem; }
+
+    .screens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .screen-card {
+      background: var(--card-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border); border-radius: 18px; overflow: hidden;
+      box-shadow: var(--card-shadow); transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .screen-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(20, 50, 35, 0.12); }
+    .screen-card img { width: 100%; display: block; border-bottom: 1px solid var(--card-border); }
+    .screen-info { padding: 22px; }
+    .screen-info h3 { font-size: 1.15rem; margin-bottom: 8px; color: var(--text-main); }
+    .screen-info p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+    .note-tag {
+      display: inline-block; margin-top: 8px; font-size: 0.82rem;
+      color: var(--brand-green); font-weight: 500; background: rgba(30, 130, 76, 0.08);
+      padding: 3px 8px; border-radius: 6px;
+    }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .feature-box {
+      background: var(--card-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border); border-radius: 16px; padding: 28px; box-shadow: var(--card-shadow);
+    }
+    .feature-box h3 { font-size: 1.15rem; margin-bottom: 10px; color: var(--brand-dark); }
+    .feature-box p { font-size: 0.95rem; color: var(--text-muted); }
+
+    .frog-banner {
+      background: linear-gradient(135deg, rgba(235, 252, 243, 0.95) 0%, rgba(220, 247, 232, 0.8) 100%);
+      border: 2px solid rgba(30, 130, 76, 0.3); border-radius: 22px; padding: 40px;
+      display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 36px; align-items: center;
+      box-shadow: 0 18px 42px rgba(30, 130, 76, 0.08);
+    }
+    .frog-banner h2 { font-size: 1.85rem; margin-bottom: 14px; color: #0c2918; }
+    .frog-banner p { color: var(--text-muted); margin-bottom: 14px; font-size: 1rem; }
+    .frog-banner img {
+      width: 100%; border-radius: 14px; box-shadow: 0 10px 24px rgba(20, 50, 35, 0.12); border: 2px solid #ffffff;
+    }
+
+    .specs-card {
+      max-width: 680px; margin: 0 auto; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: 18px; padding: 32px; box-shadow: var(--card-shadow);
+    }
+    .specs-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    .specs-table th, .specs-table td { padding: 12px 0; border-bottom: 1px solid var(--card-border); text-align: left; }
+    .specs-table th { color: var(--text-muted); width: 38%; font-weight: 500; }
+
+    footer {
+      border-top: 1px solid var(--card-border); padding: 48px 0;
+      text-align: center; color: var(--text-muted); font-size: 0.9rem;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 18px; flex-wrap: wrap; }
+
+    @media (max-width: 820px) {
+      .hero, .comparison-grid, .screens-grid, .frog-banner { grid-template-columns: 1fr; }
+      .hero { padding: 48px 0; text-align: center; }
+      .cta-group { justify-content: center; }
+      .hero h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header>
+    <div class="container nav-bar">
+      <div class="logo">
+        <img src="banner.png" alt="Sthealth Stretch 圖示">
+        <span>Sthealth Stretch</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">特色功能</a>
+        <a href="#themes">主題外觀</a>
+        <a href="https://github.com/ayotalomanoy-glitch/sthealth-privacy/issues" target="_blank" rel="noopener">支援與回饋</a>
+        <!-- 語言切換 -->
+        <div class="lang-switch" title="Language">
+          <a href="index.html">EN</a>
+          <a href="ja.html">JA</a>
+          <a href="ko.html">KO</a>
+          <span class="active">繁體</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 視覺首頁區 -->
+    <div class="hero">
+      <div>
+        <span class="badge">Windows 10 / 11 原生打造 • 輕量且溫柔</span>
+        <h1>不打斷專注心流，<span>守護你的肩頸與腰部。</span></h1>
+        <p>
+          <strong>Sthealth Stretch（潛行伸展）</strong>是專為長時間坐在電腦前的上班族與創作者打造的智慧伸展計時器。<br>
+          它會安靜等待你的雙手完全離開鍵盤與滑鼠的「思考空檔」，溫柔提示你伸展，絕不強佔輸入焦點、不中斷你的思路。
+        </p>
+        <div class="cta-group">
+          <a href="https://apps.microsoft.com/detail/9nsmkpw8mp5h" class="btn-primary" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            於 Microsoft Store 免費下載
+          </a>
+        </div>
+        <p class="meta-note">免費下載 • 100% 離線運作 • 無需註冊帳號</p>
+      </div>
+      <div class="hero-visual">
+        <img src="banner.png" alt="Sthealth Stretch 官方橫幅">
+      </div>
+    </div>
+
+    <!-- 為什麼選擇 Sthealth -->
+    <section>
+      <h2 class="section-title">傳統休息提醒工具為何總是令人反感？</h2>
+      <p class="section-sub">
+        當你正全神貫注編寫程式碼或整理文案時，是否曾遇過整個螢幕突然被強制鎖定？Sthealth Stretch 採用了徹底相反的尊重設計。
+      </p>
+      <div class="comparison-grid">
+        <div class="card bad">
+          <h3>傳統休息提醒軟體</h3>
+          <ul>
+            <li>在正打字打到一半時突然全螢幕遮擋，中斷工作</li>
+            <li>搶奪作用中的輸入焦點，讓靈感與心流瞬間消散</li>
+            <li>只想寫完最後一行，卻被強制進入漫長休息</li>
+            <li>因為過於惱人，通常不出三天就被關閉或解除安裝</li>
+          </ul>
+        </div>
+        <div class="card good">
+          <h3>Sthealth Stretch（潛行 ✕ 健康）</h3>
+          <ul>
+            <li><strong>系統層級閒置偵測：</strong> 靜靜等待鍵盤與滑鼠完全停頓的自然空檔</li>
+            <li><strong>零焦點干擾：</strong> 靜悄悄在螢幕角落呈現，絕不影響當前輸入</li>
+            <li><strong>超時計時顯示：</strong> 不給予壓力，等你手邊告一段落再從容伸展</li>
+            <li><strong>辦公桌前單次1動作：</strong> 每次只需20秒，顯著改善傍晚時的身體僵硬</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三款主題風格 -->
+    <section id="themes">
+      <h2 class="section-title">3 款簡約主題（全數免費提供）</h2>
+      <p class="section-sub">
+        精心打造 3 款能完美融入各式桌面環境的視覺風格。內建 28 種圖解伸展動作，所有人皆可免費完整體驗。
+      </p>
+      <div class="screens-grid">
+        <div class="screen-card">
+          <img src="screen-green-zh.png" alt="健康綠主題">
+          <div class="screen-info">
+            <h3>健康綠 (Healthy Green)</h3>
+            <p>經典沉靜的森林綠色調，專為舒緩長時間注視螢幕的眼睛疲勞而設計。</p>
+          </div>
+        </div>
+        <div class="screen-card">
+          <img src="screen-frog-zh.png" alt="淺色主題">
+          <div class="screen-info">
+            <h3>淺色主題 (Light Theme)</h3>
+            <p>清爽俐落的高對比白色卡片，在明亮的日間辦公環境中依舊清晰可見。</p>
+            <span class="note-tag">※此為套用贊助者「青蛙版」之顯示效果</span>
+          </div>
+        </div>
+        <div class="screen-card">
+          <img src="screen-dark-zh.png" alt="深色主題">
+          <div class="screen-info">
+            <h3>深色主題 (Dark Theme)</h3>
+            <p>柔和不刺眼的深色調，無縫融入深夜工作環境與暗色主題開發工具。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 主要功能 -->
+    <section id="features">
+      <h2 class="section-title">為久坐族量身打造的細節</h2>
+      <p class="section-sub">在不打破專注度的前提下，每項功能都經過精心微調，助你輕鬆舒活筋骨。</p>
+      <div class="features-grid">
+        <div class="feature-box">
+          <h3>28 種圖解辦公桌伸展</h3>
+          <p>涵蓋肩膀、頸部、手腕、背部與腰部等電腦族最易緊繃的部位。搭配清晰秒數或次數建議，一目了然。</p>
+        </div>
+        <div class="feature-box">
+          <h3>智慧閒置等待通知</h3>
+          <p>計時時間到達後不會粗暴插隊，而是進入「等待閒置」狀態，直到你的雙手停下才靜靜浮現。</p>
+        </div>
+        <div class="feature-box">
+          <h3>雙時段免打擾設定 (Quiet Hours)</h3>
+          <p>可自由自訂每日最多 2 個免打擾時段（如核心會議、簡報報告或遊戲時間），確保重要時刻不被打擾。</p>
+        </div>
+        <div class="feature-box">
+          <h3>螢幕四角位置自訂</h3>
+          <p>通知卡片可指定顯示於螢幕四個角落（右下、左下、右上、左上），絕不遮擋核心工作視窗。</p>
+        </div>
+        <div class="feature-box">
+          <h3>完整繁體中文多國語言</h3>
+          <p>支援繁體中文、英文、日文與韓文，自動依照 Windows 系統語言完美適配。</p>
+        </div>
+        <div class="feature-box">
+          <h3>100% 重視隱私與本機執行</h3>
+          <p>零遙測追蹤、無任何廣告。採用 Windows 原生 WPF 精緻打造，長駐系統列幾乎不佔用系統資源。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 青蛙版贊助專區 -->
+    <section>
+      <div class="frog-banner">
+        <div>
+          <span class="badge">贊助支持開發者 🐸</span>
+          <h2>喜歡 Sthealth 嗎？來認識「青蛙版」</h2>
+          <p>
+            核心計時功能與 28 種標準人像伸展圖解<strong>完全免費</strong>。
+            若 Sthealth Stretch 確實為你的肩頸腰部帶來了舒緩，歡迎透過小額內購，請獨立開發者喝杯咖啡以支持後續維護！
+          </p>
+          <p>
+            贊助後將解鎖全部 <strong>28 款超療癒青蛙伸展動作</strong>，並附贈 4 頁原創多語言數位繪本<em>《青蛙的秘密 (Frog's Secret)》</em>。
+          </p>
+        </div>
+        <div>
+          <img src="screen-frog-zh.png" alt="青蛙版預覽">
+        </div>
+      </div>
+    </section>
+
+    <!-- 系統需求 -->
+    <section>
+      <h2 class="section-title">系統需求</h2>
+      <p class="section-sub">純淨輕巧的 Windows 原生應用程式，拒絕肥大軟體。</p>
+      <div class="specs-card">
+        <table class="specs-table">
+          <tr>
+            <th>作業系統</th>
+            <td>Windows 10（組建 17763.0 以上）或 Windows 11</td>
+          </tr>
+          <tr>
+            <th>系統架構</th>
+            <td>x64 / x86 / ARM64 (PC)</td>
+          </tr>
+          <tr>
+            <th>發行者</th>
+            <td>Sthealth Dev</td>
+          </tr>
+          <tr>
+            <th>支援語言</th>
+            <td>繁體中文, English, 日本語, 한국어</td>
+          </tr>
+          <tr>
+            <th>產品價格</th>
+            <td>免費下載（可選購青蛙版贊助者內購）</td>
+          </tr>
+        </table>
+        <div style="margin-top: 28px; text-align: center;">
+          <a href="https://apps.microsoft.com/detail/9nsmkpw8mp5h" class="btn-primary" style="width: 100%; justify-content: center;" target="_blank" rel="noopener">
+            於 Microsoft Store 免費取得
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://apps.microsoft.com/detail/9nsmkpw8mp5h" target="_blank" rel="noopener">Microsoft Store</a>
+        <a href="https://ayotalomanoy-glitch.github.io/sthealth-privacy/" target="_blank" rel="noopener">隱私權政策</a>
+        <a href="https://github.com/ayotalomanoy-glitch/sthealth-privacy/issues" target="_blank" rel="noopener">回報問題與功能建議 (GitHub Issues)</a>
+      </div>
+      <p>&copy; 2026 Sthealth Dev. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
