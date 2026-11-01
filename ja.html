@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sthealth Stretch | 作業の邪魔をしない健康ストレッチタイマー (Windows)</title>
+  <meta name="description" content="デスクワーカーの肩こり・腰痛に。キーボードやマウスの操作が完全に止まった「思考の隙間」にだけ通知するスマートなストレッチタイマー。28種類の図解ストレッチ、3つのテーマ、カエル版応援機能を搭載。">
+  <meta name="keywords" content="ストレッチタイマー, Windows アプリ, デスクワーク, 肩こり, 腰痛, 休憩タイマー, 邪魔しないタイマー, Sthealth Stretch, ポモドーロ代替">
+  
+  <!-- 多言語相互リンク (SEO / hreflang) -->
+  <link rel="alternate" hreflang="en" href="https://ayotalomanoy-glitch.github.io/sthealth/" />
+  <link rel="alternate" hreflang="ja" href="https://ayotalomanoy-glitch.github.io/sthealth/ja.html" />
+  <link rel="alternate" hreflang="ko" href="https://ayotalomanoy-glitch.github.io/sthealth/ko.html" />
+  <link rel="alternate" hreflang="zh-TW" href="https://ayotalomanoy-glitch.github.io/sthealth/zh-tw.html" />
+  <link rel="alternate" hreflang="x-default" href="https://ayotalomanoy-glitch.github.io/sthealth/" />
+
+  <!-- Open Graph / X Card -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Sthealth Stretch - 作業の邪魔をしない健康ストレッチタイマー">
+  <meta property="og:description" content="手が止まった瞬間にだけそっと通知。フォーカス強奪ゼロ。デスクワーカーの首・肩・腰を守る28種類の簡単ストレッチ。">
+  <meta property="og:image" content="https://ayotalomanoy-glitch.github.io/sthealth/banner.png">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- 構造化データ (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Sthealth Stretch",
+    "operatingSystem": "Windows 10, Windows 11",
+    "applicationCategory": "HealthApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "JPY"
+    },
+    "description": "深刻な肩こりや腰痛に悩むデスクワーカーのための実用的なストレッチタイマー。タイピング等の操作が完全に止まった隙にだけ表示され、入力フォーカスを奪いません。",
+    "downloadUrl": "https://apps.microsoft.com/detail/9nsmkpw8mp5h",
+    "softwareVersion": "1.3.4.0",
+    "author": {
+      "@type": "Organization",
+      "name": "Sthealth Dev"
+    }
+  }
+  </script>
+
+  <style>
+    :root {
+      --brand-green: #1e824c;
+      --brand-dark: #124d2c;
+      --brand-accent: #27ae60;
+      --brand-light: #e8f8f0;
+      --brand-mint: #a3e4d7;
+      
+      --text-main: #14281e;
+      --text-muted: #4a6356;
+      --card-bg: rgba(255, 255, 255, 0.82);
+      --card-border: rgba(30, 130, 76, 0.14);
+      --card-shadow: 0 12px 32px rgba(20, 40, 30, 0.06);
+      --danger: #d9534f;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, sans-serif;
+      background-color: #f2fbf6;
+      color: var(--text-main);
+      line-height: 1.7;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .ambient-bg {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      z-index: -1; overflow: hidden;
+      background: radial-gradient(circle at 10% 20%, #eafbf2 0%, #f6fdf9 100%);
+    }
+    .blob {
+      position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.55;
+      animation: float 22s infinite alternate ease-in-out;
+    }
+    .blob-1 { width: 520px; height: 520px; background: #c8f4dc; top: -100px; left: -80px; }
+    .blob-2 { width: 600px; height: 600px; background: #bbf0d8; bottom: -120px; right: -100px; animation-duration: 28s; animation-delay: -6s; }
+    .blob-3 { width: 450px; height: 450px; background: #d8f8e8; top: 45%; left: 35%; animation-duration: 20s; animation-delay: -10s; }
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(60px, 40px) scale(1.08); }
+      100% { transform: translate(-40px, 70px) scale(0.94); }
+    }
+
+    a { color: var(--brand-green); text-decoration: none; transition: opacity 0.2s; }
+    a:hover { opacity: 0.8; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+    header {
+      border-bottom: 1px solid var(--card-border);
+      background: rgba(246, 253, 249, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .nav-bar { display: flex; justify-content: space-between; align-items: center; height: 70px; }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 1.25rem; color: var(--text-main); }
+    .logo img { width: 38px; height: 38px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(30, 130, 76, 0.15); }
+    .nav-links { display: flex; align-items: center; gap: 24px; font-size: 0.95rem; font-weight: 500; }
+    .nav-links a { color: var(--text-muted); }
+    .nav-links a:hover { color: var(--brand-green); }
+    
+    .lang-switch {
+      display: flex; gap: 10px; font-size: 0.85rem; background: var(--card-bg);
+      padding: 6px 14px; border-radius: 20px; border: 1px solid var(--card-border);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .lang-switch a { color: var(--text-muted); }
+    .lang-switch a:hover { color: var(--brand-green); }
+    .lang-switch span.active { color: var(--brand-green); font-weight: 700; }
+
+    .hero {
+      padding: 80px 0 64px;
+      display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center;
+    }
+    .badge {
+      display: inline-block; background: rgba(30, 130, 76, 0.08); color: var(--brand-green);
+      border: 1px solid rgba(30, 130, 76, 0.22); padding: 6px 16px; border-radius: 999px;
+      font-size: 0.88rem; font-weight: 600; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: 2.75rem; line-height: 1.25; margin-bottom: 20px; letter-spacing: -0.02em; color: #0b1f14; }
+    .hero h1 span { color: var(--brand-green); }
+    .hero p { font-size: 1.12rem; color: var(--text-muted); margin-bottom: 32px; line-height: 1.75; }
+    .cta-group { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #1e824c 0%, #156238 100%);
+      color: #ffffff; font-weight: 600; font-size: 1.05rem; padding: 15px 30px;
+      border-radius: 12px; box-shadow: 0 10px 24px rgba(30, 130, 76, 0.28);
+      transition: transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 28px rgba(30, 130, 76, 0.35); opacity: 1; }
+    .meta-note { font-size: 0.88rem; color: var(--text-muted); margin-top: 14px; }
+    .hero-visual { text-align: center; }
+    .hero-visual img {
+      width: 100%; max-width: 400px; border-radius: 24px;
+      box-shadow: 0 20px 48px rgba(20, 50, 35, 0.14); border: 4px solid #ffffff;
+    }
+
+    section { padding: 72px 0; border-top: 1px solid var(--card-border); }
+    .section-title { text-align: center; font-size: 2.1rem; margin-bottom: 12px; color: #0d2418; }
+    .section-sub { text-align: center; color: var(--text-muted); max-width: 680px; margin: 0 auto 48px; font-size: 1.05rem; }
+
+    .comparison-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+    .card {
+      background: var(--card-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border); border-radius: 18px; padding: 32px; box-shadow: var(--card-shadow);
+    }
+    .card.bad { border-color: rgba(217, 83, 79, 0.25); background: rgba(255, 255, 255, 0.7); }
+    .card.good {
+      border-color: rgba(30, 130, 76, 0.3);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.95) 0%, rgba(235, 251, 242, 0.8) 100%);
+      box-shadow: 0 16px 36px rgba(30, 130, 76, 0.1);
+    }
+    .card h3 { font-size: 1.25rem; margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .card ul { list-style: none; color: var(--text-muted); }
+    .card ul li { margin-bottom: 12px; padding-left: 26px; position: relative; }
+    .card.bad ul li::before { content: "✕"; color: var(--danger); position: absolute; left: 0; font-weight: bold; }
+    .card.good ul li::before { content: "✓"; color: var(--brand-green); position: absolute; left: 0; font-weight: bold; font-size: 1.1rem; }
+
+    .screens-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .screen-card {
+      background: var(--card-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border); border-radius: 18px; overflow: hidden;
+      box-shadow: var(--card-shadow); transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .screen-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(20, 50, 35, 0.12); }
+    .screen-card img { width: 100%; display: block; border-bottom: 1px solid var(--card-border); }
+    .screen-info { padding: 22px; }
+    .screen-info h3 { font-size: 1.15rem; margin-bottom: 8px; color: var(--text-main); }
+    .screen-info p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.6; }
+    .note-tag {
+      display: inline-block; margin-top: 8px; font-size: 0.82rem;
+      color: var(--brand-green); font-weight: 500; background: rgba(30, 130, 76, 0.08);
+      padding: 3px 8px; border-radius: 6px;
+    }
+
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+    .feature-box {
+      background: var(--card-bg); backdrop-filter: blur(8px);
+      border: 1px solid var(--card-border); border-radius: 16px; padding: 28px; box-shadow: var(--card-shadow);
+    }
+    .feature-box h3 { font-size: 1.15rem; margin-bottom: 10px; color: var(--brand-dark); }
+    .feature-box p { font-size: 0.95rem; color: var(--text-muted); }
+
+    .frog-banner {
+      background: linear-gradient(135deg, rgba(235, 252, 243, 0.95) 0%, rgba(220, 247, 232, 0.8) 100%);
+      border: 2px solid rgba(30, 130, 76, 0.3); border-radius: 22px; padding: 40px;
+      display: grid; grid-template-columns: 1.3fr 0.7fr; gap: 36px; align-items: center;
+      box-shadow: 0 18px 42px rgba(30, 130, 76, 0.08);
+    }
+    .frog-banner h2 { font-size: 1.85rem; margin-bottom: 14px; color: #0c2918; }
+    .frog-banner p { color: var(--text-muted); margin-bottom: 14px; font-size: 1rem; }
+    .frog-banner img {
+      width: 100%; border-radius: 14px; box-shadow: 0 10px 24px rgba(20, 50, 35, 0.12); border: 2px solid #ffffff;
+    }
+
+    .specs-card {
+      max-width: 680px; margin: 0 auto; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: 18px; padding: 32px; box-shadow: var(--card-shadow);
+    }
+    .specs-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+    .specs-table th, .specs-table td { padding: 12px 0; border-bottom: 1px solid var(--card-border); text-align: left; }
+    .specs-table th { color: var(--text-muted); width: 38%; font-weight: 500; }
+
+    footer {
+      border-top: 1px solid var(--card-border); padding: 48px 0;
+      text-align: center; color: var(--text-muted); font-size: 0.9rem;
+    }
+    .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 18px; flex-wrap: wrap; }
+
+    @media (max-width: 820px) {
+      .hero, .comparison-grid, .screens-grid, .frog-banner { grid-template-columns: 1fr; }
+      .hero { padding: 48px 0; text-align: center; }
+      .cta-group { justify-content: center; }
+      .hero h1 { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="ambient-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <header>
+    <div class="container nav-bar">
+      <div class="logo">
+        <img src="banner.png" alt="Sthealth Stretch アイコン">
+        <span>Sthealth Stretch</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">機能</a>
+        <a href="#themes">テーマ</a>
+        <a href="https://github.com/ayotalomanoy-glitch/sthealth-privacy/issues" target="_blank" rel="noopener">サポート / ご要望</a>
+        <!-- 言語切り替え -->
+        <div class="lang-switch" title="言語選択">
+          <a href="index.html">EN</a>
+          <span class="active">JA</span>
+          <a href="ko.html">KO</a>
+          <a href="zh-tw.html">繁體</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- ヒーローエリア -->
+    <div class="hero">
+      <div>
+        <span class="badge">Windows 10 / 11 ネイティブ対応 • 軽量＆安心</span>
+        <h1>作業の集中を削がずに、<span>首と腰を守る。</span></h1>
+        <p>
+          <strong>Sthealth Stretch（ステヘルス ストレッチ）</strong>は、深刻な肩こりや腰痛に悩むデスクワーカー・クリエイターのために作られた、実用的なストレッチタイマーです。<br>
+          タイピングやマウス操作が完全に止まった「思考の隙間」を静かに待ち、アクティブな画面から入力フォーカスを決して奪いません。
+        </p>
+        <div class="cta-group">
+          <a href="https://apps.microsoft.com/detail/9nsmkpw8mp5h" class="btn-primary" target="_blank" rel="noopener">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            Microsoft Store で無料ダウンロード
+          </a>
+        </div>
+        <p class="meta-note">無料ダウンロード • 100% オフライン動作 • 会員登録不要</p>
+      </div>
+      <div class="hero-visual">
+        <img src="banner.png" alt="Sthealth Stretch - 作業の邪魔をしない健康ストレッチタイマー">
+      </div>
+    </div>
+
+    <!-- なぜ邪魔にならないのか？ -->
+    <section>
+      <h2 class="section-title">従来の休憩タイマーと何が違うのか？</h2>
+      <p class="section-sub">
+        アイデアを練っている最中や集中してタイピングしている最中に、いきなり全画面を覆って邪魔するタイマーにイライラしたことはありませんか？ Sthealth Stretchはその真逆を徹底設計しました。
+      </p>
+      <div class="comparison-grid">
+        <div class="card bad">
+          <h3>従来の休憩タイマーの不満</h3>
+          <ul>
+            <li>タイピングの真っ最中に突然画面を塞いで作業を止める</li>
+            <li>入力フォーカスを奪い、思考のフローをぶつ切りにする</li>
+            <li>あと1行書きたいだけなのに長時間の休憩を強制する</li>
+            <li>結局邪魔になり、数日で無効化かアンインストールされる</li>
+          </ul>
+        </div>
+        <div class="card good">
+          <h3>Sthealth Stretch（ステルス ✕ 健康）</h3>
+          <ul>
+            <li><strong>OSレベルのアイドル検知:</strong> キーボードやマウスから手が離れる瞬間をじっと待機</li>
+            <li><strong>フォーカス強奪ゼロ:</strong> 四隅にそっと表示され、タイピングの邪魔を一切しない</li>
+            <li><strong>超過時間のカウントアップ:</strong> 手が空いたタイミングで自分のペースで伸ばせる</li>
+            <li><strong>デスクですぐできる1ポーズ:</strong> 1回たった20秒。夕方の体の軽さが劇的に変わる</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- テーマとスクリーンショット -->
+    <section id="themes">
+      <h2 class="section-title">3つのテーマ（すべて無料で利用可能）</h2>
+      <p class="section-sub">
+        作業環境やお好みに合わせて選べる3種類のビジュアルを用意。28種類すべての図解ストレッチを無料でお使いいただけます。
+      </p>
+      <div class="screens-grid">
+        <div class="screen-card">
+          <img src="screen-green.png" alt="健康的なグリーンのテーマ">
+          <div class="screen-info">
+            <h3>健康的なグリーン</h3>
+            <p>長時間のPC作業で疲れた目をそっと癒す、落ち着いたフォレストグリーン。</p>
+          </div>
+        </div>
+        <div class="screen-card">
+          <img src="screen-frog.png" alt="ライトテーマ">
+          <div class="screen-info">
+            <h3>ライトテーマ</h3>
+            <p>昼間の明るい作業部屋でもくっきりと見やすい高コントラストな白ベース。</p>
+            <span class="note-tag">※開発応援機能「カエル版」適用時の表示です</span>
+          </div>
+        </div>
+        <div class="screen-card">
+          <img src="screen-dark.png" alt="ダークテーマ">
+          <div class="screen-info">
+            <h3>ダークテーマ</h3>
+            <p>夜間の作業やダークモード環境に馴染む、眩しさを抑えた漆黒のテーマ。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 主な機能 -->
+    <section id="features">
+      <h2 class="section-title">デスクワーカーの健康を守る機能</h2>
+      <p class="section-sub">作業の没入感を損なわずに、体をこまめに動かせるよう細部まで調整されています。</p>
+      <div class="features-grid">
+        <div class="feature-box">
+          <h3>28種類の図解ストレッチ</h3>
+          <p>デスク周りで痛めやすい首、肩、手首、背中、腰にしっかり効くポーズを収録。秒数や回数の目安付きで迷わず伸ばせます。</p>
+        </div>
+        <div class="feature-box">
+          <h3>賢い「アイドル待ち」通知</h3>
+          <p>タイマー満了後、即座に割り込むのではなく「アイドル待ち」に入り、ユーザーの手が完全に止まった隙間にだけそっと通知を出します。</p>
+        </div>
+        <div class="feature-box">
+          <h3>2枠の通知禁止時間帯（Quiet Hours）</h3>
+          <p>会議中、集中作業中、ゲーム中など、通知を出したくない時間帯を1日2枠まで自由に設定可能です。</p>
+        </div>
+        <div class="feature-box">
+          <h3>画面の四隅から選べる配置</h3>
+          <p>通知カードの表示位置を画面の四隅（右下・左下・右上・左上）から選択でき、作業スペースを塞ぎません。</p>
+        </div>
+        <div class="feature-box">
+          <h3>4言語のマルチローカライズ</h3>
+          <p>日本語、英語、韓国語、繁体中国語に対応。OSの言語に合わせて自動で最適化されます。</p>
+        </div>
+        <div class="feature-box">
+          <h3>安心のプライバシー＆完全ローカル動作</h3>
+          <p>広告なし、追跡（テレメトリ）なし。WindowsネイティブのWPFで軽量に作られており、タスクトレイで省電力常駐します。</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- カエル版の紹介 -->
+    <section>
+      <div class="frog-banner">
+        <div>
+          <span class="badge">開発者応援アドオン 🐸</span>
+          <h2>カエル版（おまけ絵本つき）で開発をサポート！</h2>
+          <p>
+            基本のタイマー機能や28種類の人間ポーズは<strong>すべて完全無料</strong>でご利用いただけます。
+            もしSthealth Stretchが日々の腰や肩の救いになったら、コーヒー1杯分のアプリ内購入で個人開発者を応援していただけると嬉しいです！
+          </p>
+          <p>
+            応援のお礼として、全28ポーズのイラストが愛嬌たっぷりの<strong>「カエル版」</strong>へ一括着せ替え可能になり、秘密のデジタル絵本<strong>『カエルのひみつ』</strong>（全4シーン・4言語対応）がアンロックされます。
+          </p>
+        </div>
+        <div>
+          <img src="screen-frog.png" alt="カエル版プレビュー">
+        </div>
+      </div>
+    </section>
+
+    <!-- システム要件 -->
+    <section>
+      <h2 class="section-title">システム要件</h2>
+      <p class="section-sub">余計な常駐負荷のない、軽量なWindowsネイティブアプリです。</p>
+      <div class="specs-card">
+        <table class="specs-table">
+          <tr>
+            <th>対応OS</th>
+            <td>Windows 10（バージョン 17763.0以降）または Windows 11</td>
+          </tr>
+          <tr>
+            <th>対応アーキテクチャ</th>
+            <td>x64 / x86 / ARM64（PC）</td>
+          </tr>
+          <tr>
+            <th>発行元</th>
+            <td>Sthealth Dev</td>
+          </tr>
+          <tr>
+            <th>対応言語</th>
+            <td>日本語, 英語, 韓国語, 繁体中国語</td>
+          </tr>
+          <tr>
+            <th>価格</th>
+            <td>無料（任意の開発応援カエル版アドオンあり）</td>
+          </tr>
+        </table>
+        <div style="margin-top: 28px; text-align: center;">
+          <a href="https://apps.microsoft.com/detail/9nsmkpw8mp5h" class="btn-primary" style="width: 100%; justify-content: center;" target="_blank" rel="noopener">
+            Microsoft Store から無料で入手
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://apps.microsoft.com/detail/9nsmkpw8mp5h" target="_blank" rel="noopener">Microsoft Store</a>
+        <a href="https://ayotalomanoy-glitch.github.io/sthealth-privacy/" target="_blank" rel="noopener">プライバシーポリシー</a>
+        <a href="https://github.com/ayotalomanoy-glitch/sthealth-privacy/issues" target="_blank" rel="noopener">お問い合わせ・ご要望 (GitHub Issues)</a>
+      </div>
+      <p>&copy; 2026 Sthealth Dev. All rights reserved.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
