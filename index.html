@@ -6,7 +6,7 @@
   <title>Sthealth Stretch | Non-Intrusive Desk Stretch Timer for Windows</title>
   <meta name="description" content="A gentle, smart stretch timer for Windows desk workers. Never steals keyboard focus or interrupts your flow. Features 28 illustrated stretches, 3 themes, and the optional Frog Edition.">
   <meta name="keywords" content="stretch timer, Windows app, desk worker, RSI prevention, back pain, neck pain, break reminder, non-intrusive timer, Sthealth Stretch, posture reminder">
- <!-- 多言語相互リンク (SEO / hreflang) -->
+  <!-- 多言語相互リンク (SEO / hreflang) -->
   <link rel="alternate" hreflang="en" href="https://ayotalomanoy-glitch.github.io/sthealth/" />
   <link rel="alternate" hreflang="ja" href="https://ayotalomanoy-glitch.github.io/sthealth/ja.html" />
   <link rel="alternate" hreflang="ko" href="https://ayotalomanoy-glitch.github.io/sthealth/ko.html" />
@@ -198,7 +198,7 @@
 
     /* Hero Section */
     .hero {
-      padding: 80px 0 64px;
+      padding: 80px 0 56px;
       display: grid;
       grid-template-columns: 1.15fr 0.85fr;
       gap: 48px;
@@ -269,6 +269,35 @@
       border-radius: 24px;
       box-shadow: 0 20px 48px rgba(20, 50, 35, 0.14);
       border: 4px solid #ffffff;
+    }
+
+    /* Promo Video Section */
+    .video-showcase {
+      padding: 16px 0 72px;
+      text-align: center;
+    }
+    .video-frame {
+      max-width: 860px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      padding: 14px;
+      border-radius: 24px;
+      border: 1px solid rgba(30, 130, 76, 0.22);
+      box-shadow: 0 24px 56px rgba(20, 50, 35, 0.14);
+    }
+    .video-frame video {
+      width: 100%;
+      display: block;
+      border-radius: 14px;
+      background: #0d1712;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+    }
+    .video-caption {
+      margin-top: 14px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
     }
 
     /* Sections Common */
@@ -493,7 +522,7 @@
         grid-template-columns: 1fr;
       }
       .hero {
-        padding: 48px 0;
+        padding: 48px 0 32px;
         text-align: center;
       }
       .cta-group {
@@ -501,6 +530,10 @@
       }
       .hero h1 {
         font-size: 2.2rem;
+      }
+      .video-frame {
+        padding: 8px;
+        border-radius: 16px;
       }
     }
   </style>
@@ -526,7 +559,6 @@
         <a href="#themes">Themes</a>
         <a href="https://github.com/ayotalomanoy-glitch/sthealth-privacy/issues" target="_blank" rel="noopener">Support</a>
         <!-- Language Switcher -->
-           <!-- Language Switcher -->
         <div class="lang-switch" title="Language">
           <span class="active">EN</span>
           <a href="ja.html">JA</a>
@@ -558,6 +590,14 @@
       <div class="hero-visual">
         <img src="banner.png" alt="Sthealth Stretch - Gentle Stretch Timer">
       </div>
+    </div>
+
+    <!-- Promo Video Showcase -->
+    <div class="video-showcase">
+      <div class="video-frame">
+        <video src="promo.mp4" autoplay loop muted playsinline controls preload="metadata"></video>
+      </div>
+      <p class="video-caption">🔊 Unmute to enjoy with Lo-Fi beats — See how Sthealth gently guides your break in 19 seconds.</p>
     </div>
 
     <!-- Why Sthealth? (Zero Interruption Logic) -->
